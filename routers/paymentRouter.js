@@ -4,11 +4,21 @@ const PaymentSession = SSLCommerz.PaymentSession;
 const authorized=require('../middlewares/authorize')
 const {Order}=require('../models/order');
 const generateUniqueId = require('generate-unique-id');
+import { Payment } from '../models/payment';
 
 
 
 const ipn= async (req,res)=>{
-  console.log(req.body)
+   const payment=new Payment(req.body)
+  const tran_id=payment['tran_id']
+  if (payment['status']==='VALID'){
+    await Order.updateOne({transaction_id:tran_id},{status:'Complete'})
+  }
+  else {
+      await Order.deleteOne({transaction_id:tran_id})
+  }
+  await payment.save()
+  return res.status(201).send("IPN")
 
 }
 
@@ -72,9 +82,21 @@ payment.setShippingInfo({
     product_profile: "general",
   });
 
-response =await payment.paymentInit()
+  try{
 
-return res.status(201).send(response)
+    response= await payment.paymentInit()
+    if (response.status==='SUCCESS'){
+        order.sessionKey=response["sessionkey"]
+        await order.save()
+
+    }
+    return res.status(200).send(response)
+}
+catch (err) {
+    console.error("Error initializing payment:", err);
+    return res.status(500).send({ error: "Error initializing payment" });
+  }
+  
 
 }
 

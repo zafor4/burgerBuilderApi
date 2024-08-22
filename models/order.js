@@ -12,12 +12,16 @@ const orderSchema=Schema({
         paymentType:String,
     },
     price:Number,
+    transaction_id:{
+        type:String,
+        unique:true},
     orderTime:{type:Date,default:Date.now},
     status:{
         type:String,
         default:'pending',
         enum:["pending","Complete"]
-    }
+    },
+    sessionKey:String
 
 })
 
