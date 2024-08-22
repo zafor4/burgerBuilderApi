@@ -85,8 +85,10 @@ payment.setShippingInfo({
   try{
 
     response= await payment.paymentInit()
+    console.log('terminal 1:',response)
     if (response.status==='SUCCESS'){
         order.sessionKey=response["sessionkey"]
+        console.log('debug terminal 2',order)
         await order.save()
 
     }
