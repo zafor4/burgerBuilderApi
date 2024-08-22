@@ -43,7 +43,7 @@ const initPayment=async (req,res)=>{
         process.env.SSLCOMMERZ_STORE_PASSWORD
       );
       payment.setUrls({
-        success: "yoursite.com/success", // If payment Succeed
+        success: 'https://burgerbuilderapi.onrender.com/payment/success', // If payment Succeed
         fail: "yoursite.com/fail", // If payment failed
         cancel: "yoursite.com/cancel", // If user cancel payment
         ipn: 'https://burgerbuilderapi.onrender.com/payment/ipn' // SSLCommerz will send http post request in this link
@@ -99,6 +99,10 @@ if (response.status==='SUCCESS'){
 return res.status(201).send(response)
 
 }
+const paymentStatus=async (req,res)=>{
+  return res.sendFile(path.join(__basedir, 'public', 'success.html'));
+
+}
 
 
 
@@ -107,6 +111,9 @@ router.route('/')
 
 router.route('/ipn')
 .post(ipn)
+
+router.route('/success')
+.post(paymentStatus)
 
 
 module.exports=router
