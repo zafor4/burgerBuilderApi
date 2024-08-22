@@ -68,6 +68,7 @@ payment.setShippingInfo({
   });
 
 response =await payment.paymentInit()
+
 return res.status(201).send(response)
 
 }

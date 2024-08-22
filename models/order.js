@@ -4,7 +4,8 @@ const {Schema,model}=require('mongoose');
 
 const orderSchema=Schema({
     userId:Schema.Types.ObjectId,
-    ingredients:[{type:{type:String},amount:Number}],
+    ingredients:[
+        {type:{type:String},amount:Number}],
     customer:{
         deliveryAdress:String,
         phone:String,
@@ -15,7 +16,7 @@ const orderSchema=Schema({
     status:{
         type:String,
         default:'pending',
-        enum:["Pending","Complete"]
+        enum:["pending","Complete"]
     }
 
 })
