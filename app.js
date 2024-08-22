@@ -4,7 +4,7 @@ const cors=require('cors');
 const userRouter=require('./routers/userRouter');
 const orderRouter=require('./routers/orderRouter');
 const morgan = require('morgan');
-
+const paymentRouter=require('./routers/paymentRouter')
 
 
 
@@ -18,6 +18,7 @@ app.use(morgan('dev'))
 
 app.use('/user',userRouter);
 app.use('/order',orderRouter);
+app.use('/payment',paymentRouter)
 
 
 

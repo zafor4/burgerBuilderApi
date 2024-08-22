@@ -12,6 +12,11 @@ const orderSchema=Schema({
     },
     price:Number,
     orderTime:{type:Date,default:Date.now},
+    status:{
+        type:String,
+        default:'pending',
+        enum:["Pending","Complete"]
+    }
 
 })
 
