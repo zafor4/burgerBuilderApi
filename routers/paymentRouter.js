@@ -4,7 +4,7 @@ const PaymentSession = SSLCommerz.PaymentSession;
 const authorized=require('../middlewares/authorize')
 const {Order}=require('../models/order');
 const generateUniqueId = require('generate-unique-id');
-const Payment=require('../models/payment')
+const {Payment}=require('../models/payment')
 
 
 
