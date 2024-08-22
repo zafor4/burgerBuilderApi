@@ -7,6 +7,11 @@ const generateUniqueId = require('generate-unique-id');
 
 
 
+const ipn= async (req,res)=>{
+  console.log(req.body)
+
+}
+
 const initPayment=async (req,res)=>{
     const order=new Order(req.body)
 
@@ -78,6 +83,9 @@ return res.status(201).send(response)
 
 router.route('/')
 .post(authorized,initPayment)
+
+router.route('/ipn')
+.post(ipn)
 
 
 module.exports=router

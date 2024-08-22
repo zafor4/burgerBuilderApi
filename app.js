@@ -12,6 +12,7 @@ const app=express();
 
 app.use(compression())
 app.use(cors());
+app.use(express.urlencoded({extended:true}))
 app.use(express.json());
 app.use(morgan('dev'))
 
@@ -20,6 +21,7 @@ app.use(morgan('dev'))
 app.use('/user',userRouter);
 app.use('/order',orderRouter);
 app.use('/payment',paymentRouter)
+
 
 
 
