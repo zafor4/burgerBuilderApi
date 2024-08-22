@@ -35,6 +35,7 @@ const initPayment=async (req,res)=>{
  
    
     const tran_id=generateUniqueId()
+    order.transaction_id=tran_id
 
     const payment = new PaymentSession(
         true,
