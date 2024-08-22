@@ -3,6 +3,7 @@ const express=require('express');
 const cors=require('cors');
 const userRouter=require('./routers/userRouter');
 const orderRouter=require('./routers/orderRouter');
+const morgan = require('morgan');
 
 
 
@@ -12,6 +13,7 @@ const app=express();
 
 app.use(cors());
 app.use(express.json());
+app.use(morgan('dev'))
 
 
 app.use('/user',userRouter);
