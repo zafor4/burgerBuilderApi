@@ -4,19 +4,24 @@ const PaymentSession = SSLCommerz.PaymentSession;
 const authorized=require('../middlewares/authorize')
 const {Order}=require('../models/order');
 const generateUniqueId = require('generate-unique-id');
-const {Payment}=require('../models/payment')
+const Payment=require('../models/payment')
 
 
 
 const ipn= async (req,res)=>{
-   const payment=new Payment(req.body)
+  console.log('debug terminal 3:',req.body)
+  const payment=new Payment(req.body)
+
   const tran_id=payment['tran_id']
+
+
+  console.log('debug terminal 4',payment)
   if (payment['status']==='VALID'){
-    await Order.updateOne({transaction_id:tran_id},{status:'Complete'})
+      const order=await Order.updateOne({transaction_id:tran_id},{status:'Complete'})
+      console.log('debug terminal 5',order)
+     
   }
-  else {
-      await Order.deleteOne({transaction_id:tran_id})
-  }
+
   await payment.save()
   return res.status(201).send("IPN")
 
@@ -82,26 +87,17 @@ payment.setShippingInfo({
     product_profile: "general",
   });
 
-  try{
-
-    response= await payment.paymentInit()
-    console.log('terminal 1:',response)
-    if (response.status==='SUCCESS'){
-        order.sessionKey=response["sessionkey"]
-        console.log('debug terminal 2',order)
-        await order.save()
-
-    }
-    return res.status(200).send(response)
-}
-catch (err) {
-    console.error("Error initializing payment:", err);
-    return res.status(500).send({ error: "Error initializing payment" });
-  }
-  
+response =await payment.paymentInit()
+if (response.status==='SUCCESS'){
+  order.sessionKey=response["sessionkey"]
+  console.log('debug terminal 2',order)
+  await order.save()
 
 }
 
+return res.status(201).send(response)
+
+}
 
 
 
